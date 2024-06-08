@@ -49,20 +49,18 @@ export default function Export({ }: Props) {
     }
 
     return (
-        <div>
-            <div className="dropdown dropdown-left">
-                <button role="button" tabIndex={0} className="btn btn-primary">Export Data</button>
-                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-48">
-                    <li>
-                        <CSVLink data={data} headers={headers} filename="export.csv">
-                            <button>Export to CSV</button>
-                        </CSVLink>
-                    </li>
-                    <li>
-                        <button onClick={exportToExcel}>Export to Excel</button>
-                    </li>
-                </ul>
-            </div>
+        <div className="dropdown dropdown-left">
+            <button role="button" tabIndex={0} className="btn btn-primary">Export Laporan</button>
+            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-48">
+                <li>
+                    <CSVLink data={data} headers={headers} filename="export.csv">
+                        <button>Export to CSV</button>
+                    </CSVLink>
+                </li>
+                <li>
+                    <button onClick={exportToExcel}>Export to Excel</button>
+                </li>
+            </ul>
         </div>
     )
 }

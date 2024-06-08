@@ -217,10 +217,12 @@ export function ActionFilter({
     const options: Options = projects.map(v => ({ value: String(v.id), label: v.name }))
     const [selected, setSelected] = React.useState<any[] | null>(null);
 
-    const handleChange = (e: any[]) => setSelected(e)
+    const handleChange = (e: any[]) => {
+        onChange(e?.map(v => Number(v.value)) || [])
+        setSelected(e)
+    }
 
     const onSave = () => {
-        onChange(selected?.map(v => Number(v.value)) || [])
         onClose()
     }
 
