@@ -73,14 +73,14 @@ export default function Page() {
 
   const table = React.useMemo(() => ({
     header: [
-      { name: "Judul Kegiatan", colspan: 2 },
-      { name: "Nama Proyek", colspan: 2 },
-      { name: "Tanggal Mulai" },
-      { name: "Tanggal Berakhir" },
-      { name: "Waktu Mulai" },
-      { name: "Waktu Berakhir" },
-      { name: "Durasi" },
-      { name: "Aksi" },
+      { sort: true, name: "Judul Kegiatan", colspan: 2 },
+      { sort: true, name: "Nama Proyek", colspan: 2 },
+      { sort: true, name: "Tanggal Mulai" },
+      { sort: true, name: "Tanggal Berakhir" },
+      { sort: true, name: "Waktu Mulai" },
+      { sort: true, name: "Waktu Berakhir" },
+      { sort: true, name: "Durasi" },
+      { sort: false, name: "Aksi" },
     ],
     footer: [
       {
@@ -222,7 +222,11 @@ export default function Page() {
                     <th key={index} colSpan={item.colspan}>
                       <div className="flex flex-row items-center gap-3">
                         {item.name}
-                        <Icon icon="fa-solid:sort" />
+                        {item.sort && (
+                          <button>
+                            <Icon icon="fa-solid:sort" />
+                          </button>
+                        )}
                       </div>
                     </th>
                   ))}

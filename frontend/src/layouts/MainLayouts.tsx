@@ -49,7 +49,7 @@ export default function MainLayout({ children, exportAction }: Props) {
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col gap-2">
                 {/* Navbar Logo */}
-                <div className="sticky top-0 w-full navbar bg-base-100 drop-shadow-md z-10">
+                <div className="sticky top-0 w-full navbar bg-base-100 drop-shadow-md z-20">
                     <div className="flex-none lg:hidden">
                         <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -63,7 +63,7 @@ export default function MainLayout({ children, exportAction }: Props) {
                     </div>
                 </div>
                 {/* Menu */}
-                <div className="w-full navbar bg-base-100 drop-shadow-md lg:pt-5 lg:pb-0">
+                <div className="w-full navbar bg-base-100 drop-shadow-md lg:pt-5 lg:pb-0 z-10">
                     <div className="flex-1 px-5 lg:mx-2">
                         <div className="w-full flex flex-row justify-between items-center">
                             <div className="flex flex-col gap-5">

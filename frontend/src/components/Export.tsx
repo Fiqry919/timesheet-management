@@ -4,6 +4,7 @@ import utils from "@/lib/utils";
 import { CSVLink } from 'react-csv';
 import { saveAs } from 'file-saver';
 import { useAppSelector } from "@/lib/redux/hooks";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface Props {
     // 
@@ -50,15 +51,21 @@ export default function Export({ }: Props) {
 
     return (
         <div className="dropdown dropdown-left">
-            <button role="button" tabIndex={0} className="btn btn-primary">Export Laporan</button>
+            <button role="button" tabIndex={0} className="btn btn-xs sm:btn-sm md:btn-md btn-primary">Export Laporan</button>
             <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-48">
                 <li>
                     <CSVLink data={data} headers={headers} filename={`${filename}.csv`}>
-                        <button>Export to CSV</button>
+                        <button className="flex flex-row items-center gap-2 text-xs">
+                            <Icon icon="mdi:file-csv-outline" width={16} height={16} />
+                            Export to CSV
+                        </button>
                     </CSVLink>
                 </li>
                 <li>
-                    <button onClick={exportToExcel}>Export to Excel</button>
+                    <button className="flex flex-row items-center gap-2 text-xs" onClick={exportToExcel}>
+                        <Icon icon="mdi:file-excel-outline" width={16} height={16} />
+                        Export to Excel
+                    </button>
                 </li>
             </ul>
         </div>
