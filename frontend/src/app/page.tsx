@@ -2,11 +2,11 @@
 import React from "react";
 import utils from "@/lib/utils";
 import Card from "@/components/Card";
-import Alert, { Alert as AlertMessage } from "@/components/Alert";
 import { Activity, Project } from "@/interfaces/data";
 import MainLayout from "@/layouts/MainLayouts";
 import * as state from "@/lib/redux/slice/state.slice"
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Alert, { Alert as AlertMessage } from "@/components/Alert";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { ActionActivity, ActionFilter, ActionProject } from "@/components/Action";
 
@@ -107,9 +107,14 @@ export default function Page() {
     ],
   }), [activityList, compute])
 
-  const onExport = React.useCallback(() => {
-    // 
-  }, []);
+  const setActivity = (data?: any) => {
+    getActivity(data).then(res => {
+      dispatch(state.save({
+        compute: utils.omit(res, ['data']) as any,
+        activity: res.data
+      }))
+    }).catch(e => console.log(e))
+  }
 
   const onDelete = (id: number) => {
     handleAlert(true, {
@@ -136,24 +141,7 @@ export default function Page() {
     setActivity()
   }
 
-  const setActivity = (data?: any) => {
-    getActivity(data).then(res => {
-      dispatch(state.save({
-        compute: utils.omit(res, ['data']) as any,
-        activity: res.data
-      }))
-    }).catch(e => console.log(e))
-  }
-
   const debounceSearch = React.useCallback(utils.debounce(setActivity, 300), [])
-
-  React.useEffect(() => {
-    if (search) {
-      debounceSearch({ search })
-    } else {
-      setActivity()
-    }
-  }, [search, debounceSearch])
 
   React.useEffect(() => {
     if (!activityList.length) {
@@ -169,6 +157,14 @@ export default function Page() {
       setActivity(filter.length ? { filter } : undefined)
     }
   }, [filter])
+
+  React.useEffect(() => {
+    if (search) {
+      debounceSearch({ search })
+    } else {
+      setActivity()
+    }
+  }, [search, debounceSearch])
 
   return (
     <MainLayout exportAction={activityList.length > 0}>

@@ -1,5 +1,6 @@
 'use client'
 import React from "react";
+import Link from "next/link";
 import Card from "@/components/Card";
 import { toast } from "react-toastify";
 import Alert from "@/components/Alert";
@@ -10,7 +11,6 @@ import { useSearchParams } from "next/navigation";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import * as state from "@/lib/redux/slice/state.slice"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
-import Link from "next/link";
 
 export const dynamic = 'force-dynamic'
 
@@ -63,11 +63,10 @@ export default function Page() {
         }
 
         const result = await saveEmployee(data)
-        // dispatch data when success
         result?.message && dispatch(state.save({
             employee: { id: 1, ...data }
         }))
-        // show alert
+
         handleAlert(true, {
             type: result?.message ? 'success' : 'error',
             title: result?.message ? 'Berhasil' : 'Gagal',

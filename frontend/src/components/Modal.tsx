@@ -32,7 +32,6 @@ export default function Modal({
         })}>
             <div className={cn({
                 'modal-box': true,
-                // 'p-4': !classNames?.box?.match('p-'),
                 [`${classNames?.box}`]: classNames?.box
             })}>
                 {!disableCloseIcon && (

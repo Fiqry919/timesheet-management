@@ -53,7 +53,7 @@ export default function Export({ }: Props) {
             <button role="button" tabIndex={0} className="btn btn-primary">Export Laporan</button>
             <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-48">
                 <li>
-                    <CSVLink data={data} headers={headers} filename="export.csv">
+                    <CSVLink data={data} headers={headers} filename={`${filename}.csv`}>
                         <button>Export to CSV</button>
                     </CSVLink>
                 </li>

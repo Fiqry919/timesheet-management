@@ -2,11 +2,10 @@
 import React from "react"
 import cn from "classnames"
 import Link from "next/link"
-import config from "@/config"
+import Export from "@/components/Export"
 import * as state from "@/lib/redux/slice/state.slice"
 import { usePathname, useRouter } from "next/navigation"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import Export from "@/components/Export"
 
 
 interface Props {
@@ -30,11 +29,18 @@ export default function MainLayout({ children, exportAction }: Props) {
     const employee = useAppSelector(state => state.data.employee)
     const title = process.env.NEXT_PUBLIC_APP_NAME!.split(' ')
 
+    const config = React.useMemo(() => ({
+        menu: [
+            { label: "Daftar Keinginan", href: "/" },
+            { label: "Pengaturan", href: "/settings" },
+        ]
+    }), [])
+
     React.useEffect(() => {
         if (!employee) {
             getEmployee().then(res => dispatch(state.save({ employee: res.data })))
                 .catch(() => !pathname.match('settings')
-                    && router.push('/settings?err=not found'))
+                    && router.push('/settings?err=empty employee'))
         }
     }, [employee])
 
@@ -78,9 +84,7 @@ export default function MainLayout({ children, exportAction }: Props) {
                                     ))}
                                 </div>
                             </div>
-                            {pathname === '/' && exportAction && (
-                                <Export />
-                            )}
+                            {exportAction && <Export />}
                         </div>
                     </div>
                 </div>
