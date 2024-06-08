@@ -5,6 +5,7 @@ class Utils {
             currency: "IDR"
         }).format(n).replace(/^Rp\s+|,00$/g, '')
     }
+
     formatDate(dateString?: string) {
         if (!dateString) return
         const months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
@@ -21,6 +22,22 @@ class Utils {
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
+    }
+    /**
+    * @format yyyy-MM-dd HH:mm:ss
+    */
+    formatTimestamp(format: string = 'yyyy-MM-dd HH:mm:ss', dateString?: string) {
+        const date = dateString ? new Date(dateString) : new Date()
+
+        const year = date.getFullYear().toString();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const hour = date.getHours().toString().padStart(2, '0');
+        const minute = date.getMinutes().toString().padStart(2, '0');
+        const second = date.getSeconds().toString().padStart(2, '0');
+
+        return format.replace('yyyy', year).replace('MM', month).replace('dd', day)
+            .replace('HH', hour).replace('mm', minute).replace('ss', second);
     }
 
     secondsToDuration(seconds: number) {
@@ -56,6 +73,20 @@ class Utils {
         }
 
         return result;
+    }
+
+    debounce = (func: Function, delay: number) => {
+        let timeout: NodeJS.Timeout;
+        return (...args: any[]) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func(...args);
+            }, delay);
+        };
+    }
+
+    capitalize = (str: string) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 }
 

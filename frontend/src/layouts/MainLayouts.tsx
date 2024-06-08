@@ -6,11 +6,12 @@ import config from "@/config"
 import * as state from "@/lib/redux/slice/state.slice"
 import { usePathname, useRouter } from "next/navigation"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import Export from "@/components/Export"
 
 
 interface Props {
     children: React.ReactNode
-    onExport?: () => void
+    exportAction?: boolean
 }
 
 async function getEmployee() {
@@ -22,7 +23,7 @@ async function getEmployee() {
     return result
 }
 
-export default function MainLayout({ children, onExport }: Props) {
+export default function MainLayout({ children, exportAction }: Props) {
     const router = useRouter()
     const pathname = usePathname()
     const dispatch = useAppDispatch()
@@ -77,8 +78,8 @@ export default function MainLayout({ children, onExport }: Props) {
                                     ))}
                                 </div>
                             </div>
-                            {pathname === '/' && onExport && (
-                                <button onClick={onExport} className="btn btn-primary">Export Laporan</button>
+                            {pathname === '/' && exportAction && (
+                                <Export />
                             )}
                         </div>
                     </div>

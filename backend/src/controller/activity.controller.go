@@ -13,7 +13,8 @@ import (
 
 func GetActivity(ctx *gin.Context) {
 	var request struct {
-		Filter []int `json:"filter" binding:"omitempty"`
+		Search string `json:"search" binding:"omitempty"`
+		Filter []int  `json:"filter" binding:"omitempty"`
 	}
 
 	if ctx.Request.ContentLength != 0 {
@@ -35,6 +36,10 @@ func GetActivity(ctx *gin.Context) {
 	var activity []model.Activity
 	query := database.Conn.Table("activity").
 		Where("employee_id = ?", employee.ID)
+
+	if request.Search != "" {
+		query = query.Where("title ILIKE ?", "%"+request.Search+"%")
+	}
 
 	if request.Filter != nil {
 		log.Println(request.Filter)

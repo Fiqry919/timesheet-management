@@ -37,9 +37,9 @@ async function saveActivity(data: Activity) {
 }
 
 async function deleteActivity(id: number) {
-  return await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/activity/' + id, {
+  return (await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/activity/' + id, {
     method: 'POST',
-  })
+  })).json()
 }
 
 async function getOrSaveProject(data?: Omit<Project, 'id'>) {
@@ -61,6 +61,7 @@ export default function Page() {
   const activityList = useAppSelector(state => state.data.activity)
   const projectList = useAppSelector(state => state.data.project)
 
+  const [search, setSearch] = React.useState<string>('')
   const [activityId, setActivityId] = React.useState<number>()
   const [showActionActivity, setShowActionActivity] = React.useState(false)
   const [showActionProject, setShowActionProject] = React.useState(false)
@@ -116,8 +117,11 @@ export default function Page() {
       icon: 'mdi:trash',
       title: 'Hapus Kegiatan',
       message: 'Apakah anda yakin ingin?',
+      disableAutoClose: true,
       action: <div onClick={() => {
-        deleteActivity(id).finally(() => window.location.reload())
+        deleteActivity(id).then(
+          (res) => handleSuccessSubmitActivity(res.message)
+        ).catch(e => console.log(e))
       }} className="btn btn-primary">Hapus</div>
     })
   }
@@ -141,6 +145,16 @@ export default function Page() {
     }).catch(e => console.log(e))
   }
 
+  const debounceSearch = React.useCallback(utils.debounce(setActivity, 300), [])
+
+  React.useEffect(() => {
+    if (search) {
+      debounceSearch({ search })
+    } else {
+      setActivity()
+    }
+  }, [search, debounceSearch])
+
   React.useEffect(() => {
     if (!activityList.length) {
       setActivity()
@@ -157,7 +171,7 @@ export default function Page() {
   }, [filter])
 
   return (
-    <MainLayout onExport={activityList?.length ? onExport : undefined}>
+    <MainLayout exportAction={activityList.length > 0}>
       <div className="space-y-5 p-2 sm:p-5">
         <Card
           classNames={{
@@ -190,7 +204,7 @@ export default function Page() {
             <div className="flex flex-row justify-between items-center gap-2">
               <label className="input input-sm md:input-md input-bordered flex items-center gap-2">
                 <Icon icon="mdi:search" className="w-5 h-5 text-base-content/50" />
-                <input type="text" className="grow" placeholder="Search" />
+                <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="grow" placeholder="Search" />
               </label>
               <button onClick={() => setShowActionFilter(true)} className="btn btn-sm md:btn-md btn-square btn-outline border-base-content/30 text-primary">
                 <div className="relative inline-flex justify-center items-center">
